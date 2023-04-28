@@ -7,7 +7,7 @@ class Config {
   public JWT_TOKEN: string | undefined;
   public NODE_ENV: string | undefined;
   public SECRET_KEY_ONE: string | undefined;
-  public SECRET_KEY_two: string | undefined;
+  public SECRET_KEY_TWO: string | undefined;
   public CLIENT_URL: string | undefined;
 
   private readonly DEFAULT_DATABASE_URL =
@@ -18,7 +18,7 @@ class Config {
     this.JWT_TOKEN = process.env.JWT_TOKEN || '1234';
     this.NODE_ENV = process.env.NODE_ENV || '';
     this.SECRET_KEY_ONE = process.env.SECRET_KEY_ONE || '';
-    this.SECRET_KEY_two = process.env.SECRET_KEY_two || '';
+    this.SECRET_KEY_TWO = process.env.SECRET_KEY_TWO || '';
     this.CLIENT_URL = process.env.CLIENT_URL || '';
   }
 
