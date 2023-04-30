@@ -12,8 +12,7 @@ class Config {
   public CLIENT_URL: string | undefined;
   public REDIS_HOST: string | undefined;
 
-  private readonly DEFAULT_DATABASE_URL =
-    'mongodb://127.0.0.1:27017/MyTchat-backend';
+  private readonly DEFAULT_DATABASE_URL = 'mongodb://127.0.0.1:27017/MyTchat-backend';
 
   constructor() {
     this.DATABASE_URL = process.env.DATABASE_URL || this.DEFAULT_DATABASE_URL;
@@ -26,7 +25,7 @@ class Config {
   }
 
   public createLogger(name: string): bunyan {
-    return bunyan.createLogger({name, level: 'debug' });
+    return bunyan.createLogger({ name, level: 'debug' });
   }
 
   public validateConfing(): void {
