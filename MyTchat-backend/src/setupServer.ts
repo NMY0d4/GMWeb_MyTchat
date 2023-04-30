@@ -16,12 +16,14 @@ import HTTP_STATUS from 'http-status-codes';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
 import { createAdapter } from '@socket.io/redis-adapter';
+import Logger from 'bunyan';
 import 'express-async-errors';
 import { config } from './config';
 import applicationRoutes from './routes';
 import { CustomError, IErrorResponse } from './shared/helpers/error-handler';
 
 const SERVER_PORT = '5000';
+const log: Logger = config.createLogger('server');
 
 export class MyTchatServer {
   constructor(private app: Application) {}
@@ -69,7 +71,7 @@ export class MyTchatServer {
     app.all('*', (req: Request, res: Response) => {
       res
         .status(HTTP_STATUS.NOT_FOUND)
-        .json({ meesage: `${req.originalUrl} not found` });
+        .json({ message: `${req.originalUrl} not found` });
     });
 
     app.use(
@@ -79,7 +81,7 @@ export class MyTchatServer {
         res: Response,
         next: NextFunction
       ) => {
-        console.log(error);
+        log.error(error);
         if (error instanceof CustomError) {
           return res.status(error.statusCode).json(error.serializeErrors());
         }
@@ -95,7 +97,7 @@ export class MyTchatServer {
       this.startHttpServer(httpServer);
       this.socketIOConnections(socketIO);
     } catch (error) {
-      console.log(error);
+      log.error(error);
     }
   }
 
@@ -114,9 +116,9 @@ export class MyTchatServer {
   }
 
   private startHttpServer(httpServer: http.Server): void {
-    console.log(`Server has started with process ${process.pid}`);
+    log.info(`Server has started with process ${process.pid}`);
     httpServer.listen(SERVER_PORT, () => {
-      console.log(`Server running on port ${SERVER_PORT}`);
+      log.info(`Server running on port ${SERVER_PORT}`);
     });
   }
 
