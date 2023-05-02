@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import HTTP_STATUS from 'http-status-codes';
 import { Request, Response, request } from 'express';
 import { joiValidation } from '@global/decorators/joi-validation.decorators';
 import { signupSchema } from '@auth/schemes/signup';
@@ -30,12 +31,13 @@ export class Signup {
       password,
       avatarColor
     });
-    const result: UploadApiResponse = await uploads(avatarImage, `${userObjectId}`, true, true ) as UploadApiResponse;
+    const result: UploadApiResponse = (await uploads(avatarImage, `${userObjectId}`, true, true)) as UploadApiResponse;
 
     if (!result?.public_id) {
       throw new BadRequestError('file uploads: Error occured. TRy again.');
     }
 
+    res.status(HTTP_STATUS.CREATED).json({ message: 'User created successfully', authData });
   }
 
   private signupData(data: ISignUpData): IAuthDocument {
