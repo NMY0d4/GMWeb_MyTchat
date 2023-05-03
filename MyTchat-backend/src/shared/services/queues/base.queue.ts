@@ -6,8 +6,7 @@ import { ExpressAdapter } from '@bull-board/express';
 import { config } from '@root/config';
 import { IAuthJob } from '@auth/interfaces/auth.interface';
 
-type IBaseJobData =
-| IAuthJob;
+type IBaseJobData = IAuthJob;
 
 let bullAdapters: BullAdapter[] = [];
 
@@ -51,4 +50,3 @@ export abstract class BaseQueue {
     this.queue.process(name, concurrency, callback);
   }
 }
-
