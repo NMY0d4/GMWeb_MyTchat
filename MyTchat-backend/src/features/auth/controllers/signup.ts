@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import HTTP_STATUS from 'http-status-codes';
-import { Request, Response, request } from 'express';
+import { Request, Response } from 'express';
 import { joiValidation } from '@global/decorators/joi-validation.decorators';
 import { signupSchema } from '@auth/schemes/signup';
 import { IAuthDocument, ISignUpData } from '@auth/interfaces/auth.interface';
