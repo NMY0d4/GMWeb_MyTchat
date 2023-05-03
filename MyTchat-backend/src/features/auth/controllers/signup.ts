@@ -12,8 +12,10 @@ import { uploads } from '@global/helpers/cloudinary-upload';
 import { IUserDocument } from '@user/interfaces/user.interface';
 import { UserCache } from '@service/redis/user.cache';
 import { omit } from 'lodash';
+import Jwt from 'jsonwebtoken';
 import { authQueue } from '@service/queues/auth.queue';
 import { userQueue } from '@service/queues/user.queue';
+import { config } from '@root/config';
 
 const userCache: UserCache = new UserCache();
 
@@ -21,8 +23,8 @@ export class Signup {
   @joiValidation(signupSchema)
   public async create(req: Request, res: Response): Promise<void> {
     const { username, email, password, avatarColor, avatarImage } = req.body;
-    const checkIfUserExist: IAuthDocument = await authService.getUserByUsernameOrEmail(username, email);
 
+    const checkIfUserExist: IAuthDocument = await authService.getUserByUsernameOrEmail(username, email);
     if (checkIfUserExist) {
       throw new BadRequestError('Invalid credentials');
     }
@@ -54,7 +56,23 @@ export class Signup {
     authQueue.addAuthUserJob('addAuthUserToDB', { value: userDataForCache });
     userQueue.addUserJob('addUserToDB', { value: userDataForCache });
 
-    res.status(HTTP_STATUS.CREATED).json({ message: 'User created successfully', authData });
+    const userJwt: string = Signup.prototype.signToken(authData, userObjectId);
+    req.session = { jwt: userJwt };
+
+    res.status(HTTP_STATUS.CREATED).json({ message: 'User created successfully', user: userDataForCache, token: userJwt });
+  }
+
+  private signToken(data: IAuthDocument, userObjectId: ObjectId): string {
+    return Jwt.sign(
+      {
+        userId: userObjectId,
+        uId: data.uId,
+        email: data.email,
+        username: data.username,
+        avatarColor: data.avatarColor
+      },
+      config.JWT_TOKEN!
+    );
   }
 
   private signupData(data: ISignUpData): IAuthDocument {
