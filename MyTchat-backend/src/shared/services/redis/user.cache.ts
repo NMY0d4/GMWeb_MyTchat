@@ -119,6 +119,7 @@ export class UserCache extends BaseCache {
       response.followersCount = Helpers.parseJson(`${response.followersCount}`);
       response.followingCount = Helpers.parseJson(`${response.followingCount}`);
 
+      return response;
     } catch (error) {
       log.error(error);
       throw new ServerError('Server error. Try again');
