@@ -37,7 +37,7 @@ export class UserCache extends BaseCache {
     } = createdUser;
 
     const firstList: string[] = [
-      'id',
+      '_id',
       `${_id}`,
       'uId',
       `${uId}`,
@@ -92,7 +92,10 @@ export class UserCache extends BaseCache {
         await this.client.connect();
       }
       await this.client.ZADD('user', { score: parseInt(userUId, 10), value: `${key}` });
-      await this.client.HSET(`users:${key}`, dataToSave);
+
+      for (let i = 0; i < dataToSave.length; i += 2) {
+        await this.client.HSET(`users:${key}`, dataToSave[i], dataToSave[i + 1]);
+      }
     } catch (error) {
       log.error(error);
       throw new ServerError('Server error. Try again');
