@@ -3,6 +3,7 @@
 
 ###
 
+# LOGIN USER
 POST {{baseUrl}}/{{urlPath}}/signin
 Content-Type: application/json
 Accept: application/json
@@ -15,12 +16,23 @@ withCredentials: true
 
 ###
 
+# SIGNOUT
 GET {{baseUrl}}/{{urlPath}}/signout
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
 
 ###
+
+# CURRENT USER
+GET {{baseUrl}}/{{urlPath}}/currentuser
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+
+# SIGNUP USER
 POST {{baseUrl}}/{{urlPath}}/signup
 Content-Type: application/json
 Accept: application/json
