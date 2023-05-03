@@ -14,6 +14,13 @@ withCredentials: true
 }
 
 ###
+
+GET {{baseUrl}}/{{urlPath}}/signout
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
 POST {{baseUrl}}/{{urlPath}}/signup
 Content-Type: application/json
 Accept: application/json
