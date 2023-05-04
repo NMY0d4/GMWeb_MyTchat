@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import * as cloudinaryUploads from '@global/helpers/cloudinary-upload';
 import { Signup } from '../signup';

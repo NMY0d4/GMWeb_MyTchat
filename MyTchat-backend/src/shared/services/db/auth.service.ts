@@ -20,7 +20,7 @@ class AuthService {
     return user;
   }
 
-  public async getAuthUserByUSername(username: string): Promise<IAuthDocument> {
+  public async getAuthUserByUsername(username: string): Promise<IAuthDocument> {
     const user: IAuthDocument = (await AuthModel.findOne({ username: Helpers.firstLetterUppercase(username) }).exec()) as IAuthDocument;
 
     return user;
@@ -35,8 +35,8 @@ class AuthService {
   public async getAuthUserByPasswordToken(token: string): Promise<IAuthDocument> {
     const user: IAuthDocument = (await AuthModel.findOne({
       passwordResetToken: token,
-      passwordResetExpires: {$gt: Date.now()}
-     }).exec()) as IAuthDocument;
+      passwordResetExpires: { $gt: Date.now() }
+    }).exec()) as IAuthDocument;
 
     return user;
   }
