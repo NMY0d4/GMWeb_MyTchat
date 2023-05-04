@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 /* eslint-disable @typescript-eslint/no-explicit-any */
+=======
+>>>>>>> 9428e696eb3e1de29739eacaca383eb0581170e1
 import { JoiRequestValidationError } from '@global/helpers/error-handler';
 import { Request } from 'express';
 import { ObjectSchema } from 'joi';
