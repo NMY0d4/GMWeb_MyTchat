@@ -16,7 +16,7 @@ withCredentials: true
 
 ###
 
-# SIGNOUT
+# LOGOUT
 GET {{baseUrl}}/{{urlPath}}/signout
 Content-Type: application/json
 Accept: application/json
