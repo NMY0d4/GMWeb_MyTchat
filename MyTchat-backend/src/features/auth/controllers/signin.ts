@@ -14,37 +14,56 @@ export class SignIn {
   @joiValidation(loginSchema)
   public async read(req: Request, res: Response): Promise<void> {
     const { username, password } = req.body;
-    const existingUSer: IAuthDocument = await authService.getAuthUserByUSername(username);
-    if (!existingUSer) {
+    const existingUser: IAuthDocument = await authService.getAuthUserByUsername(username);
+    if (!existingUser) {
       throw new BadRequestError('Invalid credentials');
     }
 
-    const passwordMatch: boolean = await existingUSer.comparePassword(password);
+    const passwordMatch: boolean = await existingUser.comparePassword(password);
     if (!passwordMatch) {
       throw new BadRequestError('Invalid credentials');
     }
 
-    const user: IUserDocument = await userService.getUserByAuthId(`${existingUSer._id}`);
+    const user: IUserDocument = await userService.getUserByAuthId(`${existingUser._id}`);
 
     const userJwt: string = Jwt.sign(
       {
         userId: user._id, // ERROR FIX VOIR SECTION 9
-        uId: existingUSer.uId,
-        email: existingUSer.email,
-        username: existingUSer.username,
-        avatarColor: existingUSer.avatarColor
+        uId: existingUser.uId,
+        email: existingUser.email,
+        username: existingUser.username,
+        avatarColor: existingUser.avatarColor
       },
       config.JWT_TOKEN!
     );
+
     req.session = { jwt: userJwt };
+
+    ///////////////////////// FOR TESTING EMAIL ////////////////////////////////////
+
+    // const templateParams: IResetPasswordParams = {
+    //   username: existingUser.username,
+    //   email: existingUser.email,
+    //   ipaddress: publicIP.address(),
+    //   date: moment().format('DD/MM/YYYY HH:mm')
+    // };
+
+    // const template: string = resetPasswordTemplate.passwordResetConfirmationTemplate(templateParams);
+    // emailQueue.addEmailJob('forgotPasswordEmail', {
+    //   template,
+    //   receiverEmail: 'arjun.wisoky10@ethereal.email',
+    //   subject: 'Password reset Confirmation'
+    // });
+    /////////////////////////////////////////////////////////////////////////////////////
+
     const userDocument: IUserDocument = {
       ...user,
-      authId: existingUSer._id,
-      username: existingUSer.username,
-      email: existingUSer.email,
-      avatarColor: existingUSer.avatarColor,
-      uId: existingUSer.uId,
-      createdAt: existingUSer.createdAt
+      authId: existingUser._id,
+      username: existingUser.username,
+      email: existingUser.email,
+      avatarColor: existingUser.avatarColor,
+      uId: existingUser.uId,
+      createdAt: existingUser.createdAt
     } as IUserDocument;
 
     res.status(HTTP_STATUS.OK).json({ message: 'User login successfully', user: userDocument, token: userJwt });

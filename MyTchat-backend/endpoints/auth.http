@@ -3,6 +3,33 @@
 
 ###
 
+# FORGOT PASSWORD
+
+POST {{baseUrl}}/{{urlPath}}/forgot-password
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "email": "test2@test.com"
+}
+
+###
+
+# RESET PASSWORD
+
+POST {{baseUrl}}/{{urlPath}}/reset-password/571668f0210b50d3c645a8c27a317f981004ed21
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "password": "password2",
+  "confirmPassword": "password2"
+}
+
+###
+
 # LOGIN USER
 POST {{baseUrl}}/{{urlPath}}/signin
 Content-Type: application/json
@@ -11,12 +38,12 @@ withCredentials: true
 
 {
   "username": "Laurent",
-  "password": "password"
+  "password": "password2"
 }
 
 ###
 
-# SIGNOUT
+# LOGOUT
 GET {{baseUrl}}/{{urlPath}}/signout
 Content-Type: application/json
 Accept: application/json
