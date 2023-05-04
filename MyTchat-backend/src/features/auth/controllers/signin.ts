@@ -7,13 +7,8 @@ import { authService } from '@service/db/auth.service';
 import { BadRequestError } from '@global/helpers/error-handler';
 import { IAuthDocument } from '@auth/interfaces/auth.interface';
 import { loginSchema } from '@auth/schemes/signin';
-import { IResetPasswordParams, IUserDocument } from '@user/interfaces/user.interface';
+import { IUserDocument } from '@user/interfaces/user.interface';
 import { userService } from '@service/db/user.service';
-import { emailQueue } from '@service/queues/email.queue';
-import moment from 'moment';
-import publicIP from 'ip';
-// import { forgotPasswordTemplate } from '@service/emails/template/forgot-password/forgot-password-template';
-import { resetPasswordTemplate } from '@service/emails/template/reset-password/reset-password-template';
 
 export class SignIn {
   @joiValidation(loginSchema)
@@ -46,19 +41,19 @@ export class SignIn {
 
     ///////////////////////// FOR TESTING EMAIL ////////////////////////////////////
 
-    const templateParams: IResetPasswordParams = {
-      username: existingUser.username,
-      email: existingUser.email,
-      ipaddress: publicIP.address(),
-      date: moment().format('DD/MM/YYYY HH:mm')
-    };
+    // const templateParams: IResetPasswordParams = {
+    //   username: existingUser.username,
+    //   email: existingUser.email,
+    //   ipaddress: publicIP.address(),
+    //   date: moment().format('DD/MM/YYYY HH:mm')
+    // };
 
-    const template: string = resetPasswordTemplate.passwordResetConfirmationTemplate(templateParams);
-    emailQueue.addEmailJob('forgotPasswordEmail', {
-      template,
-      receiverEmail: 'arjun.wisoky10@ethereal.email',
-      subject: 'Password reset Confirmation'
-    });
+    // const template: string = resetPasswordTemplate.passwordResetConfirmationTemplate(templateParams);
+    // emailQueue.addEmailJob('forgotPasswordEmail', {
+    //   template,
+    //   receiverEmail: 'arjun.wisoky10@ethereal.email',
+    //   subject: 'Password reset Confirmation'
+    // });
     /////////////////////////////////////////////////////////////////////////////////////
 
     const userDocument: IUserDocument = {
