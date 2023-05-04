@@ -81,10 +81,6 @@ export class Signup {
       ...data,
       username: Helpers.firstLetterUppercase(username),
       email: Helpers.lowerCase(email),
-<<<<<<< HEAD
-=======
-
->>>>>>> 9428e696eb3e1de29739eacaca383eb0581170e1
       createdAt: new Date()
     } as IAuthDocument;
   }
