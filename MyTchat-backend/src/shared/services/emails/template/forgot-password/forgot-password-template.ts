@@ -6,7 +6,7 @@ class ForgotPasswordTemplate {
     return ejs.render(fs.readFileSync(`${__dirname}/forgot-password-template.ejs`, 'utf8'), {
       username,
       resetLink,
-      image_url: 'https://pic.onlinewebfonts.com/svg/img_521145.png'
+      image_url: 'https://cdn-icons-png.flaticon.com/512/4950/4950388.png'
     });
   }
 }
