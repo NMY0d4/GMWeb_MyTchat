@@ -1,6 +1,7 @@
 import { AuthPayload, IAuthDocument } from '@auth/interfaces/auth.interface';
 import { Response } from 'express';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const authMockRequest = (sessionData: IJWT, body: IAuthMock, currentUser?: AuthPayload | null, params?: any) => ({
   session: sessionData,
   body,
@@ -8,7 +9,7 @@ export const authMockRequest = (sessionData: IJWT, body: IAuthMock, currentUser?
   currentUser
 });
 
-export const authMockresponse = (): Response => {
+export const authMockResponse = (): Response => {
   const res: Response = {} as Response;
   res.status = jest.fn().mockReturnValue(res).mockReturnValue(res);
   res.json = jest.fn().mockReturnValue(res);
