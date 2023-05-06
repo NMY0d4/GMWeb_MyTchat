@@ -2,7 +2,8 @@ import { BaseCache } from '@service/redis/base.cache';
 import { config } from '@root/config';
 import { ServerError } from '@global/helpers/error-handler';
 import Logger from 'bunyan';
-import { ISavePostToCache } from '@post/interfaces/post.interface';
+import { IPostDocument, IReactions, ISavePostToCache } from '@post/interfaces/post.interface';
+import { Helpers } from '@global/helpers/helpers';
 
 const LOG_NAME = 'postCache';
 const log: Logger = config.createLogger(LOG_NAME);
@@ -88,6 +89,35 @@ export class PostCache extends BaseCache {
       const count: number = parseInt(postsCount[0], 10) + 1;
       multi.HSET(`users:${currentUserId}`, 'postsCount', count);
       multi.exec();
+    } catch (error) {
+      log.error(error);
+      throw new ServerError('Server error. Try again');
+    }
+  }
+
+  public async getPostFromCache(key: string, start: number, end: number): Promise<IPostDocument[]> {
+    try {
+      if (!this.client.isOpen) {
+        await this.client.connect();
+      }
+
+      const reply: string[] = await this.client.ZRANGE(key, start, end, { REV: true });
+      const multi: ReturnType<typeof this.client.multi> = this.client.multi();
+
+      for (const value of reply) {
+        multi.HGETALL(`posts:${value}`);
+      }
+
+      const replies: any = await multi.exec();
+      const postReplies: IPostDocument[] = [];
+      for (const post of replies as IPostDocument[]) {
+        post.commentsCount = Helpers.parseJson(`${post.commentsCount}`) as number;
+        post.reactions = Helpers.parseJson(`${post.reactions}`) as IReactions;
+        post.createdAt = new Date(Helpers.parseJson(`${post.createdAt}`));
+        postReplies.push(post);
+      }
+
+      return postReplies;
     } catch (error) {
       log.error(error);
       throw new ServerError('Server error. Try again');

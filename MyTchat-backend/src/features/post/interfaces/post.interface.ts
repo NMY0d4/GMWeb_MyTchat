@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import mongoose, { Document } from 'mongoose';
 
 // move this to reactions interfgace later
-interface IReactions {
+export interface IReactions {
   like: number;
   love: number;
   happy: number;

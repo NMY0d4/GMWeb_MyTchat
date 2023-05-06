@@ -11,9 +11,9 @@ Accept: application/json
 withCredentials: true
 
 {
-  "post": "This is my second post",
-  "bgColor": "#4aaf3",
-  "privacy": "Private",
+  "post": "This is my sixth post",
+  "bgColor": "#1eefff",
+  "privacy": "Public",
   "gifUrl": "",
   "profilePicture": "https://res.cloudinary.com/dh7gwd3a2/image/upload/v1683126554/6452791abcfe3f92b5e1084d",
   "feelings": ""
