@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:5000
+@urlPath = api/v1
+
+###
+
+# POST a POST
+POST {{baseUrl}}/{{urlPath}}/post
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "post": "This is my second post",
+  "bgColor": "#4aaf3",
+  "privacy": "Private",
+  "gifUrl": "",
+  "profilePicture": "https://res.cloudinary.com/dh7gwd3a2/image/upload/v1683126554/6452791abcfe3f92b5e1084d",
+  "feelings": ""
+
+}
