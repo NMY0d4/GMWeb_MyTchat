@@ -28,7 +28,7 @@ export class SignIn {
 
     const userJwt: string = Jwt.sign(
       {
-        userId: user._id, // ERROR FIX VOIR SECTION 9
+        userId: user._id, 
         uId: existingUser.uId,
         email: existingUser.email,
         username: existingUser.username,
