@@ -1,9 +1,9 @@
-import { ServerError } from '@global/helpers/error-handler';
 import { Helpers } from '@global/helpers/helpers';
 import { config } from '@root/config';
+import { ServerError } from '@global/helpers/error-handler';
+import Logger from 'bunyan';
 import { BaseCache } from '@service/redis/base.cache';
 import { IUserDocument } from '@user/interfaces/user.interface';
-import Logger from 'bunyan';
 
 const LOG_NAME = 'userCache';
 const log: Logger = config.createLogger(LOG_NAME);
