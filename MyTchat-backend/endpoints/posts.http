@@ -22,7 +22,7 @@ withCredentials: true
 
 ###
 
-# POST a POST
+# CREATE a POST
 POST {{baseUrl}}/{{urlPath}}/post
 Content-Type: application/json
 Accept: application/json
@@ -42,10 +42,30 @@ withCredentials: true
 
 # DELETE POST
 
-DELETE {{baseUrl}}/{{urlPath}}/post/6456281658b6258aaed2cd22
+DELETE {{baseUrl}}/{{urlPath}}/post/ - add post id here -
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
+
+###
+
+# UPDATE POST
+
+PUT {{baseUrl}}/{{urlPath}}/post/64565b6f45f4a56a8b31fecc
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "post": "This is a updated post",
+  "bgColor": "#ffcdf2",
+  "privacy": "Public",
+  "gifUrl": "",
+  "profilePicture": "https://res.cloudinary.com/dh7gwd3a2/image/upload/v1683126554/6452791abcfe3f92b5e1084d",
+  "feelings": "",
+  "imgId": "",
+  "imgVersion": ""
+}
 
 ###
 
