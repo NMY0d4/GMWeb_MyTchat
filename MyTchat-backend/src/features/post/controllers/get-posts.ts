@@ -21,7 +21,7 @@ export class Get {
       totalPosts = await postCache.getTotalPostsInCache();
     } else {
       posts = await postService.getPosts({}, skip, limit, { createdAt: -1 });
-      totalPosts = await postService.postCount();
+      totalPosts = await postService.postsCount();
     }
 
     res.status(HTTP_STATUS.OK).json({ message: 'All posts', posts, totalPosts });

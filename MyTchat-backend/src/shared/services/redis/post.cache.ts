@@ -104,26 +104,27 @@ export class PostCache extends BaseCache {
         await this.client.connect();
       }
 
-      const reply: string[] = await this.client.ZRANGE(key, start, end, { REV: true });
+      const reply: string[] = await this.client.ZRANGE(key, start, end);
       const multi: ReturnType<typeof this.client.multi> = this.client.multi();
 
-      for (const value of reply) {
-        multi.HGETALL(`posts:${value}`);
-      }
+      this.reverseData(reply, multi);
+      // for (let i = reply.length - 1; i >= 0; i--) {
+      //   multi.HGETALL(`posts:${reply[i]}`);
+      // }
 
-      const replies: PostCacheMultiType = await multi.exec();
+      const replies: PostCacheMultiType = (await multi.exec()) as PostCacheMultiType;
       const postReplies: IPostDocument[] = [];
-      for (const post of replies as unknown as IPostDocument[]) {
+      for (const post of replies as IPostDocument[]) {
         post.commentsCount = Helpers.parseJson(`${post.commentsCount}`) as number;
         post.reactions = Helpers.parseJson(`${post.reactions}`) as IReactions;
-        post.createdAt = new Date(Helpers.parseJson(`${post.createdAt}`));
+        post.createdAt = new Date(Helpers.parseJson(`${post.createdAt}`)) as Date;
         postReplies.push(post);
       }
 
       return postReplies;
     } catch (error) {
       log.error(error);
-      throw new ServerError('Server error. Try again');
+      throw new ServerError('Server error. Try again.');
     }
   }
 
@@ -146,12 +147,13 @@ export class PostCache extends BaseCache {
         await this.client.connect();
       }
 
-      const reply: string[] = await this.client.ZRANGE(key, start, end, { REV: true });
+      const reply: string[] = await this.client.ZRANGE(key, start, end);
       const multi: ReturnType<typeof this.client.multi> = this.client.multi();
 
-      for (const value of reply) {
-        multi.HGETALL(`posts:${value}`);
-      }
+      this.reverseData(reply, multi);
+      // for (const value of reply) {
+      //   multi.HGETALL(`posts:${value}`);
+      // }
 
       const replies: PostCacheMultiType = await multi.exec();
       const postWithImages: IPostDocument[] = [];
@@ -180,9 +182,10 @@ export class PostCache extends BaseCache {
       const reply: string[] = await this.client.ZRANGE(key, uId, uId, { REV: true, BY: 'SCORE' });
       const multi: ReturnType<typeof this.client.multi> = this.client.multi();
 
-      for (const value of reply) {
-        multi.HGETALL(`posts:${value}`);
-      }
+      this.reverseData(reply, multi);
+      // for (const value of reply) {
+      //   multi.HGETALL(`posts:${value}`);
+      // }
 
       const replies: PostCacheMultiType = await multi.exec();
       const postReplies: IPostDocument[] = [];
@@ -210,6 +213,12 @@ export class PostCache extends BaseCache {
     } catch (error) {
       log.error(error);
       throw new ServerError('Server error. Try again');
+    }
+  }
+
+  private reverseData(data: string[], multi: ReturnType<typeof this.client.multi>): void {
+    for (let i = data.length - 1; i >= 0; i--) {
+      multi.HGETALL(`posts:${data[i]}`);
     }
   }
 }

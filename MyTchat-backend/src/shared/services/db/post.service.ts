@@ -24,7 +24,7 @@ class PostService {
     return posts;
   }
 
-  public async postCount(): Promise<number> {
+  public async postsCount(): Promise<number> {
     const count: number = await PostModel.find({}).countDocuments();
     return count;
   }
