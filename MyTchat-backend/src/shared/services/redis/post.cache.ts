@@ -216,6 +216,26 @@ export class PostCache extends BaseCache {
     }
   }
 
+  public async deletePostFromCache(key: string, currentUserId: string): Promise<void> {
+    try {
+      if (!this.client.isOpen) {
+        await this.client.connect();
+      }
+      const postsCount: string[] = await this.client.HMGET(`users:${currentUserId}`, 'postsCount');
+      const multi: ReturnType<typeof this.client.multi> = this.client.multi();
+      multi.ZREM('post', `${key}`);
+      multi.DEL(`posts:${key}`);
+      multi.DEL(`comments:${key}`);
+      multi.DEL(`reactions:${key}`);
+      const count: number = parseInt(postsCount[0], 10) - 1;
+      multi.HSET(`users:${currentUserId}`, 'postsCount', count);
+      await multi.exec();
+    } catch (error) {
+      log.error(error);
+      throw new ServerError('Server error. Try again');
+    }
+  }
+
   private reverseData(data: string[], multi: ReturnType<typeof this.client.multi>): void {
     for (let i = data.length - 1; i >= 0; i--) {
       multi.HGETALL(`posts:${data[i]}`);

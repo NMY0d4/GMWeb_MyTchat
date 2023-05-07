@@ -40,6 +40,15 @@ withCredentials: true
 
 ###
 
+# DELETE POST
+
+DELETE {{baseUrl}}/{{urlPath}}/post/6456281658b6258aaed2cd22
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+
 # POST a POST with IMAGE
 POST {{baseUrl}}/{{urlPath}}/post/image/post
 Content-Type: application/json
