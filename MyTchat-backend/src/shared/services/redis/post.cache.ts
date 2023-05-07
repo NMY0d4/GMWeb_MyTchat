@@ -236,6 +236,51 @@ export class PostCache extends BaseCache {
     }
   }
 
+  public async updatePostInCache(key: string, updatedPost: IPostDocument): Promise<IPostDocument> {
+    const { post, bgColor, feelings, privacy, gifUrl, imgVersion, imgId, profilePicture } = updatedPost;
+
+    const dataToSave: string[] = [
+      'post',
+      `${post}`,
+      'bgColor',
+      `${bgColor}`,
+      'feelings',
+      `${feelings}`,
+      'privacy',
+      `${privacy}`,
+      'gifUrl',
+      `${gifUrl}`,
+      'profilePicture',
+      `${profilePicture}`,
+      'imgVersion',
+      `${imgVersion}`,
+      'imgId',
+      `${imgId}`
+    ];
+    try {
+      if (!this.client.isOpen) {
+        await this.client.connect();
+      }
+      for (let i = 0; i < dataToSave.length; i += 2) {
+        await this.client.HSET(`posts:${key}`, dataToSave[i], dataToSave[i + 1]);
+      }
+
+      const multi: ReturnType<typeof this.client.multi> = this.client.multi();
+
+      multi.HGETALL(`posts:${key}`);
+      const reply: PostCacheMultiType = (await multi.exec()) as PostCacheMultiType;
+      const postReply = reply as IPostDocument[];
+      postReply[0].commentsCount = Helpers.parseJson(`${postReply[0].commentsCount}`) as number;
+      postReply[0].reactions = Helpers.parseJson(`${postReply[0].reactions}`) as IReactions;
+      postReply[0].createdAt = new Date(Helpers.parseJson(`${postReply[0].createdAt}`));
+
+      return postReply[0];
+    } catch (error) {
+      log.error(error);
+      throw new ServerError('Server error. Try again');
+    }
+  }
+
   private reverseData(data: string[], multi: ReturnType<typeof this.client.multi>): void {
     for (let i = data.length - 1; i >= 0; i--) {
       multi.HGETALL(`posts:${data[i]}`);
