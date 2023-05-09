@@ -1,3 +1,4 @@
+import { reactionWorker } from '@worker/reaction.worker';
 import { BaseQueue } from './base.queue';
 
 import { IReactionJob } from '@reaction/interfaces/reaction.interface';
@@ -5,7 +6,8 @@ import { IReactionJob } from '@reaction/interfaces/reaction.interface';
 class ReactionQueue extends BaseQueue {
   constructor() {
     super('reactions');
-    // this.processJob('addAuthUserToDB', 5, authWorker.addAuthUserToDB);
+    this.processJob('addReactionToDB', 5, reactionWorker.addReactionToDB);
+    this.processJob('removeReactionFromDB', 5, reactionWorker.RemoveReactionFromDB);
   }
 
   public addReactionJob(name: string, data: IReactionJob): void {
