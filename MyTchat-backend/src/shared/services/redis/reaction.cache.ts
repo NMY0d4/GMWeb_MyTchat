@@ -1,7 +1,7 @@
 import { config } from '@root/config';
 import { ServerError } from '@global/helpers/error-handler';
 import Logger from 'bunyan';
-import _ from 'lodash';
+import _, { find } from 'lodash';
 import { BaseCache } from '@service/redis/base.cache';
 import { IReactionDocument, IReactions } from '@reaction/interfaces/reaction.interface';
 import { Helpers } from '@global/helpers/helpers';
@@ -35,6 +35,7 @@ export class ReactionCache extends BaseCache {
         await this.client.HSET(`posts:${key}`, 'reactions', JSON.stringify(postReactions));
       }
     } catch (error) {
+      log.error(error);
       throw new ServerError('Server error. Try again.');
     }
   }
@@ -52,6 +53,47 @@ export class ReactionCache extends BaseCache {
 
       await this.client.HSET(`posts:${key}`, 'reactions', JSON.stringify(postReactions));
     } catch (error) {
+      log.error(error);
+      throw new ServerError('Server error. Try again.');
+    }
+  }
+
+  public async getReactionsFromCache(postId: string): Promise<[IReactionDocument[], number]> {
+    try {
+      if (!this.client.isOpen) {
+        await this.client.connect();
+      }
+      const reactionsCount: number = await this.client.LLEN(`reactions:${postId}`);
+      const response: string[] = await this.client.LRANGE(`reactions:${postId}`, 0, -1);
+      const list: IReactionDocument[] = [];
+      for (const item of response) {
+        list.push(Helpers.parseJson(item));
+      }
+
+      return response.length ? [list, reactionsCount] : [[], 0];
+    } catch (error) {
+      log.error(error);
+      throw new ServerError('Server error. Try again.');
+    }
+  }
+
+  public async getSingleReactionByUSernameFromCache(postId: string, username: string): Promise<[IReactionDocument, number] | []> {
+    try {
+      if (!this.client.isOpen) {
+        await this.client.connect();
+      }
+      const response: string[] = await this.client.LRANGE(`reactions:${postId}`, 0, -1);
+      const list: IReactionDocument[] = [];
+      for (const item of response) {
+        list.push(Helpers.parseJson(item));
+      }
+      const result: IReactionDocument = find(list, (listItem: IReactionDocument) => {
+        return listItem?.postId === postId && listItem?.username === username;
+      }) as IReactionDocument;
+
+      return response.length ? [result, 1] : [];
+    } catch (error) {
+      log.error(error);
       throw new ServerError('Server error. Try again.');
     }
   }
