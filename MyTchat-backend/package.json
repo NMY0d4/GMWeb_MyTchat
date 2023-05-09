@@ -66,6 +66,7 @@
     "@types/ip": "^1.1.0",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/lodash": "^4.14.194",
+    "@types/redis-info": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
     "eslint": "^8.39.0",
