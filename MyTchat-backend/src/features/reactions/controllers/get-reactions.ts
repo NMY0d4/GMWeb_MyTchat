@@ -22,7 +22,7 @@ export class Get_Reactions {
   public async singleReactionByUsername(req: Request, res: Response): Promise<void> {
     const { postId, username } = req.params;
 
-    const cachedReaction: [IReactionDocument, number] | [] = await reactionCache.getSingleReactionByUSernameFromCache(postId, username);
+    const cachedReaction: [IReactionDocument, number] | [] = await reactionCache.getSingleReactionByUsernameFromCache(postId, username);
     const reactions: [IReactionDocument, number] | [] = cachedReaction.length
       ? cachedReaction
       : await reactionService.getSinglePostReactionByUsername(postId, username);
