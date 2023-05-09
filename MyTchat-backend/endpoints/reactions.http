@@ -27,3 +27,27 @@ Accept: application/json
 withCredentials: true
 
 {}
+
+###
+
+# GET REACTIONS
+GET {{baseUrl}}/{{urlPath}}/post/reactions/645a18f5167de8034fb62a82
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+
+# GET SINGLE REACTION by USER
+GET {{baseUrl}}/{{urlPath}}/post/single/reaction/username/Laurent/645a18f5167de8034fb62a82
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+###
+
+# GET ALL REACTIONS OF a USER
+GET {{baseUrl}}/{{urlPath}}/post/reactions/username/Laurent
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
