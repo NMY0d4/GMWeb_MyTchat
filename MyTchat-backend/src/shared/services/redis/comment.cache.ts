@@ -3,7 +3,6 @@ import { ServerError } from '@global/helpers/error-handler';
 import Logger from 'bunyan';
 import { find } from 'lodash';
 import { BaseCache } from '@service/redis/base.cache';
-import { IReactionDocument, IReactions } from '@reaction/interfaces/reaction.interface';
 import { Helpers } from '@global/helpers/helpers';
 import { ICommentDocument, ICommentNameList } from '@comment/interfaces/comment.interface';
 
