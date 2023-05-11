@@ -4,7 +4,7 @@ import { commentWorker } from '@worker/comment.worker';
 
 class CommentQueue extends BaseQueue {
   constructor() {
-    super('emails');
+    super('comments');
     this.processJob('addCommentToDB', 5, commentWorker.addCommentToDB);
   }
 

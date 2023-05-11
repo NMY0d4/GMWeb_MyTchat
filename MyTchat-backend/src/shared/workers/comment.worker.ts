@@ -9,7 +9,7 @@ const log: Logger = config.createLogger(LOG_NAME);
 class CommentWorker {
   async addCommentToDB(job: Job, done: DoneCallback): Promise<void> {
     try {
-      const {data} = job.data;
+      const { data } = job;
       await commentService.addCommentToDB(data);
       job.progress(100);
       done(null, job.data);
