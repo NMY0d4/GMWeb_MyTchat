@@ -90,7 +90,7 @@ withCredentials: true
 
 ###
 
-# POST a POST with IMAGE
+# CREATE POST with IMAGE
 POST {{baseUrl}}/{{urlPath}}/post/image/post
 Content-Type: application/json
 Accept: application/json
