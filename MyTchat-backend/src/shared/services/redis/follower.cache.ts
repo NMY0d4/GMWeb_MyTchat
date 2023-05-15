@@ -43,7 +43,7 @@ export class FollowerCache extends BaseCache {
       if (!this.client.isOpen) {
         await this.client.connect();
       }
-      await this.client.HINCRBY(`users: ${userId}`, prop, value);
+      await this.client.HINCRBY(`users:${userId}`, prop, value);
 
     } catch (error) {
       log.error(error);
