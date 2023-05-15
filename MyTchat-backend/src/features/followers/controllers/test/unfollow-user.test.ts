@@ -33,11 +33,11 @@ describe('Remove', () => {
     await Remove.prototype.follower(req, res);
     expect(FollowerCache.prototype.removeFollowerFromCache).toHaveBeenCalledTimes(2);
     expect(FollowerCache.prototype.removeFollowerFromCache).toHaveBeenCalledWith(
-      `following:${req.currentUser!.userId}`,
+      `followers:${req.currentUser!.userId}`,
       req.params.followeeId
     );
     expect(FollowerCache.prototype.removeFollowerFromCache).toHaveBeenCalledWith(
-      `followers:${req.params.followeeId}`,
+      `followees:${req.params.followeeId}`,
       req.params.followerId
     );
     expect(FollowerCache.prototype.updateFollowersCountInCache).toHaveBeenCalledTimes(2);

@@ -12,7 +12,7 @@ export class Remove {
       `followers:${req.currentUser!.userId}`,
       followeeId
     );
-    const removeFolloweeFromCache: Promise<void> = followerCache.removeFollowerFromCache(`following:${followeeId}`, followerId);
+    const removeFolloweeFromCache: Promise<void> = followerCache.removeFollowerFromCache(`followees:${followeeId}`, followerId);
 
     const followersCount: Promise<void> = followerCache.updateFollowersCountInCache(`${followeeId}`, 'followersCount', -1);
     const followeeCount: Promise<void> = followerCache.updateFollowersCountInCache(`${followerId}`, 'followingCount', -1);
