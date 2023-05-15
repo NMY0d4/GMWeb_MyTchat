@@ -32,6 +32,7 @@ export class Add {
     await Promise.all([addFollowerToCache, addFolloweeToCache]);
 
     // send data to queue
+    
     res.status(HTTP_STATUS.OK).json({ message: 'Following user now' });
 
   }
