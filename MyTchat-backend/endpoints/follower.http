@@ -6,7 +6,7 @@
 
 # FOLLOW a User
 
-PUT {{baseUrl}}/{{urlPath}}/user/follow/6461f3abd29458b8bdad0185
+PUT {{baseUrl}}/{{urlPath}}/user/follow/6461f3c3d29458b8bdad018c
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
@@ -18,6 +18,39 @@ withCredentials: true
 # UNFOLLOW a User
 
 PUT {{baseUrl}}/{{urlPath}}/user/unFollow/6461f3abd29458b8bdad0185/6461f0afd29458b8bdad016b
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{}
+
+###
+
+# GET USER FOLLOWING
+
+PUT {{baseUrl}}/{{urlPath}}/user/following
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{}
+
+###
+
+# GET USER FOLLOWING
+
+PUT {{baseUrl}}/{{urlPath}}/user/following
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{}
+
+###
+
+# GET USER FOLLOWING
+
+PUT {{baseUrl}}/{{urlPath}}/user/followers/6461f3c3d29458b8bdad018c
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
