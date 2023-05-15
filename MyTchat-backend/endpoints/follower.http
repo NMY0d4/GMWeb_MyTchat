@@ -28,7 +28,7 @@ withCredentials: true
 
 # GET USER FOLLOWING
 
-PUT {{baseUrl}}/{{urlPath}}/user/following
+GET {{baseUrl}}/{{urlPath}}/user/following
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
@@ -39,7 +39,7 @@ withCredentials: true
 
 # GET USER FOLLOWING
 
-PUT {{baseUrl}}/{{urlPath}}/user/following
+GET {{baseUrl}}/{{urlPath}}/user/followers/6461f3c3d29458b8bdad018c
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
@@ -50,7 +50,29 @@ withCredentials: true
 
 # GET USER FOLLOWING
 
-PUT {{baseUrl}}/{{urlPath}}/user/followers/6461f3c3d29458b8bdad018c
+GET {{baseUrl}}/{{urlPath}}/user/following
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{}
+
+###
+
+# BLOCK a User
+
+PUT {{baseUrl}}/{{urlPath}}/user/block/461f0f6d29458b8bdad0176
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{}
+
+###
+
+# UNBLOCK a User
+
+PUT {{baseUrl}}/{{urlPath}}/user/unblock/
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
